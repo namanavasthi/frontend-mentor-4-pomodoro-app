@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/frontend-mentor-4-pomodoro-app/static/css/main.aea0ff57.chunk.css",
+    "main.js": "/frontend-mentor-4-pomodoro-app/static/js/main.08696ac1.chunk.js",
+    "main.js.map": "/frontend-mentor-4-pomodoro-app/static/js/main.08696ac1.chunk.js.map",
+    "runtime-main.js": "/frontend-mentor-4-pomodoro-app/static/js/runtime-main.fe5f47c5.js",
+    "runtime-main.js.map": "/frontend-mentor-4-pomodoro-app/static/js/runtime-main.fe5f47c5.js.map",
+    "static/js/2.284115bd.chunk.js": "/frontend-mentor-4-pomodoro-app/static/js/2.284115bd.chunk.js",
+    "static/js/2.284115bd.chunk.js.map": "/frontend-mentor-4-pomodoro-app/static/js/2.284115bd.chunk.js.map",
+    "index.html": "/frontend-mentor-4-pomodoro-app/index.html",
+    "static/css/main.aea0ff57.chunk.css.map": "/frontend-mentor-4-pomodoro-app/static/css/main.aea0ff57.chunk.css.map",
+    "static/js/2.284115bd.chunk.js.LICENSE.txt": "/frontend-mentor-4-pomodoro-app/static/js/2.284115bd.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.fe5f47c5.js",
+    "static/js/2.284115bd.chunk.js",
+    "static/css/main.aea0ff57.chunk.css",
+    "static/js/main.08696ac1.chunk.js"
+  ]
+}
