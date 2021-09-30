@@ -9,3 +9,7 @@ Difficulty : 4-ADVANCED
 Status: Progress
 Challenge : https://www.frontendmentor.io/challenges/pomodoro-app-KBFnycJ6G
 ```
+
+## Thoughts
+
+- lacks hover states on comps for `pomodoro`, `short break` and `long break` buttons. added something similar to design system definition of hover states.
