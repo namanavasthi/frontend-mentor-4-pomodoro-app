@@ -21,6 +21,24 @@ module.exports = {
           200: "#EFF1FA",
         },
       },
+      fontSize: {
+        12: "12px",
+        14: "14px",
+        24: "24px",
+        32: "32px",
+      },
+      lineHeight: {
+        15: "15px",
+        18: "18px",
+        30: "30px",
+        40: "40px",
+      },
+      spacing: {
+        30: "30px",
+        40: "40px",
+        50: "50px",
+        80: "80px",
+      },
     },
   },
   variants: {
