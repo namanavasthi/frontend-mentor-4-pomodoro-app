@@ -5,6 +5,7 @@ import { MdSettings } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 import { GoCheck } from "react-icons/go";
 
+import { Button } from "./Button";
 import { useAppContext } from "./Context";
 
 const modalRoot = document.getElementById("modal");
@@ -68,37 +69,27 @@ const Font = () => {
   );
 };
 
-const Colors = () => {
-  const { color, setColor } = useAppContext();
+const Colors = ({ currColor, setCurrColor }) => {
+  const Color = ({ value }) => {
+    return (
+      <li>
+        <button
+          onClick={() => setCurrColor(value)}
+          className={`bg-${value} text-lg w-40 h-40 flex justify-center items-center rounded-full focus:shadow-md hover:shadow-md`}
+        >
+          {currColor === value ? <GoCheck /> : ""}
+        </button>
+      </li>
+    );
+  };
 
   return (
     <div className="py-5 flex flex-row justify-between items-center">
       <h2 className="uppercase font-kumbh font-bold text-13 line-16 tracking-5">color</h2>
       <ul className="flex flex-row w-1/2 md:w-1/3 justify-around">
-        <li>
-          <button
-            onClick={() => setColor("red")}
-            className="bg-red text-lg w-40 h-40 flex justify-center items-center rounded-full"
-          >
-            {color === "red" ? <GoCheck /> : ""}
-          </button>
-        </li>
-        <li>
-          <button
-            onClick={() => setColor("blue-light")}
-            className="bg-blue-light text-lg w-40 h-40 flex justify-center items-center rounded-full"
-          >
-            {color === "blue-light" ? <GoCheck /> : ""}
-          </button>
-        </li>
-        <li>
-          <button
-            onClick={() => setColor("purple")}
-            className="bg-purple text-lg w-40 h-40 flex justify-center items-center rounded-full"
-          >
-            {color === "purple" ? <GoCheck /> : ""}
-          </button>
-        </li>
+        <Color value="red" />
+        <Color value="blue-light" />
+        <Color value="purple" />
       </ul>
     </div>
   );
@@ -107,7 +98,20 @@ const Colors = () => {
 export const Settings = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const Toggle = () => setIsOpen(!isOpen);
+  const { color, font, setColor, setFont } = useAppContext();
+
+  const [currColor, setCurrColor] = useState(color);
+
+  const Toggle = () => {
+    setIsOpen(!isOpen);
+    setCurrColor(color);
+  };
+
+  const updateOptions = () => {
+    setColor(currColor);
+    setFont(font);
+    Toggle();
+  };
 
   return (
     <div className="w-full flex flex-row justify-center items-center pb-40 md:pb-70 lg:pb-30">
@@ -129,9 +133,12 @@ export const Settings = () => {
             <Hr />
             <Font />
             <Hr />
-            <Colors />
+            <Colors currColor={currColor} setCurrColor={setCurrColor} />
           </div>
         </article>
+        <div className="flex justify-center items-center -mb-6">
+          <Button onClick={() => updateOptions()}>Apply</Button>
+        </div>
       </Modal>
     </div>
   );

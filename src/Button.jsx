@@ -13,7 +13,7 @@ const TabButton = (props) => {
       } font-kumbh font-bold text-12 leading-15 md:text-14 md:leading-18 leading-xl ${className ? className : ""}`}
       onClick={() => onClick()}
     >
-      <span className="rounded-full h-full block w-full py-2.5 px-6 md:py-3.5 md:px-11 hover:bg-white hover:bg-opacity-20">
+      <span className="rounded-full h-full block w-full py-2.5 px-3 md:py-3.5 md:px-11 hover:bg-white hover:bg-opacity-20">
         {children}
       </span>
     </button>
@@ -21,10 +21,11 @@ const TabButton = (props) => {
 };
 
 const DefaultButton = (props) => {
+  const { color } = useAppContext();
   const { children, className, onClick } = props;
   return (
     <button
-      className={`rounded-full text-white bg-red font-kumbh font-bold text-base leading-xl ${
+      className={`rounded-full text-white bg-${color} font-kumbh font-bold text-base leading-xl ${
         className ? className : ""
       }`}
       onClick={() => onClick()}
