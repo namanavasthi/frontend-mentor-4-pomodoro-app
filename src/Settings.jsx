@@ -6,24 +6,52 @@ import { IoMdClose } from "react-icons/io";
 import { GoCheck } from "react-icons/go";
 
 import { Button } from "./Button";
-import { useAppContext } from "./Context";
+import { useAppContext, STEP, useTimeContext } from "./Context";
 
 const modalRoot = document.getElementById("modal");
 
-function reducer(options, action) {
+function themeReducer(theme, action) {
   switch (action.type) {
     case "red":
-      return Object.assign({}, options, { color: "red" });
+      return Object.assign({}, theme, { color: "red" });
     case "blue-light":
-      return Object.assign({}, options, { color: "blue-light" });
+      return Object.assign({}, theme, { color: "blue-light" });
     case "purple":
-      return Object.assign({}, options, { color: "purple" });
+      return Object.assign({}, theme, { color: "purple" });
     case "kumbh":
-      return Object.assign({}, options, { font: "kumbh" });
+      return Object.assign({}, theme, { font: "kumbh" });
     case "roboto":
-      return Object.assign({}, options, { font: "roboto" });
+      return Object.assign({}, theme, { font: "roboto" });
     case "space":
-      return Object.assign({}, options, { font: "space" });
+      return Object.assign({}, theme, { font: "space" });
+    default:
+      throw new Error();
+  }
+}
+
+function timeReducer(time, action) {
+  switch (action.type) {
+    case "pomodoro":
+      return Object.assign({}, time, {
+        pomodoro: action.value,
+        short: time.short,
+        long: time.long,
+      });
+
+    case "short":
+      return Object.assign({}, time, {
+        pomodoro: time.pomodoro,
+        short: action.value,
+        long: time.long,
+      });
+
+    case "long":
+      return Object.assign({}, time, {
+        pomodoro: time.pomodoro,
+        short: time.short,
+        long: action.value,
+      });
+
     default:
       throw new Error();
   }
@@ -72,31 +100,71 @@ const Hr = ({ className }) => {
   return <hr className={`w-full border-t-2 bg-neutral-300 ${className ? className : ""}`} />;
 };
 
-const Time = ({ font }) => {
+const Times = ({ time, timeDispatch, font }) => {
+  // tailwind is kinda 💩 with input form styling
+  // so intead of binding things to an input number change
+  // id use basic html instead
+
+  const Time = ({ value }) => {
+    return (
+      <li className="flex flex-col">
+        <label htmlFor={value} className={`lowercase text-12 leading-15 font-${font} font-bold`}>
+          {value}
+        </label>
+        <input
+          type="number"
+          id={value}
+          name={value}
+          value={time[value]}
+          step={STEP}
+          min="1"
+          max="60"
+          onChange={(e) => {
+            if (e.target.value > time[value]) timeDispatch({ type: value, value: e.target.value });
+            else if (e.target.value < time[value]) timeDispatch({ type: value, value: e.target.value });
+          }}
+        />
+      </li>
+    );
+  };
+
   return (
-    <div className="py-5">
-      <h2 className={`uppercase font-${font} font-bold text-13 line-16 tracking-5`}>time (minutes)</h2>
+    <div className="py-5 flex flex-col justify-between items-center">
+      <h2
+        className={`uppercase font-${font} font-bold text-11 md:text-13 leading-14 md:leading-16 tracking-5 pb-5 md:pb-0`}
+      >
+        time (minutes)
+      </h2>
+      <ul className="flex flex-row w-full justify-between">
+        <Time value="pomodoro" />
+        <Time value="short" />
+        <Time value="long" />
+      </ul>
     </div>
   );
 };
 
-const Colors = ({ options, dispatch, font }) => {
+const Colors = ({ theme, themeDispatch, font }) => {
   const Color = ({ value }) => {
     return (
       <li>
         <button
-          onClick={() => dispatch({ type: value })}
+          onClick={() => themeDispatch({ type: value })}
           className={`bg-${value} text-lg w-40 h-40 flex justify-center items-center rounded-full focus:shadow-md hover:shadow-md`}
         >
-          {options.color === value ? <GoCheck /> : ""}
+          {theme.color === value ? <GoCheck /> : ""}
         </button>
       </li>
     );
   };
 
   return (
-    <div className="py-5 flex flex-row justify-between items-center">
-      <h2 className={`uppercase font-${font} font-bold text-13 line-16 tracking-5`}>color</h2>
+    <div className="py-5 flex flex-col md:flex-row justify-between items-center">
+      <h2
+        className={`uppercase font-${font} font-bold text-11 md:text-13 leading-14 md:leading-16 tracking-5 pb-5 md:pb-0`}
+      >
+        color
+      </h2>
       <ul className="flex flex-row w-1/2 md:w-1/3 justify-around">
         <Color value="red" />
         <Color value="blue-light" />
@@ -106,14 +174,14 @@ const Colors = ({ options, dispatch, font }) => {
   );
 };
 
-const Fonts = ({ options, dispatch, font }) => {
+const Fonts = ({ theme, themeDispatch, font }) => {
   const Font = ({ value }) => {
     return (
       <li>
         <button
-          onClick={() => dispatch({ type: value })}
+          onClick={() => themeDispatch({ type: value })}
           className={`${
-            options.font === value ? "bg-blue-dark text-white" : "bg-neutral-200 text-blue-medium text-opacity-70"
+            theme.font === value ? "bg-blue-dark text-white" : "bg-neutral-200 text-blue-medium text-opacity-70"
           } font-${value} text-md w-40 h-40 flex justify-center items-center rounded-full focus:shadow-md hover:shadow-md`}
         >
           Aa
@@ -123,8 +191,12 @@ const Fonts = ({ options, dispatch, font }) => {
   };
 
   return (
-    <div className="py-5 flex flex-row justify-between items-center">
-      <h2 className={`uppercase font-${font} font-bold text-13 line-16 tracking-5`}>color</h2>
+    <div className="py-5 flex flex-col md:flex-row justify-between items-center">
+      <h2
+        className={`uppercase font-${font} font-bold text-11 md:text-13 leading-14 md:leading-16 tracking-5 pb-5 md:pb-0`}
+      >
+        font
+      </h2>
       <ul className="flex flex-row w-1/2 md:w-1/3 justify-around">
         <Font value="kumbh" />
         <Font value="roboto" />
@@ -138,20 +210,29 @@ export const Settings = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { color, font, setColor, setFont } = useAppContext();
+  const { pomodoro, setPomodoro, short, setShort, long, setLong } = useTimeContext();
 
-  const initialState = { color: color, font: font };
+  const initialThemeState = { color: color, font: font };
+  const initialTimeState = { pomodoro: pomodoro, short: short, long: long };
 
-  const [options, dispatch] = useReducer(reducer, initialState);
+  const [theme, themeDispatch] = useReducer(themeReducer, initialThemeState);
+  const [time, timeDispatch] = useReducer(timeReducer, initialTimeState);
 
   const Toggle = () => {
     setIsOpen(!isOpen);
-    dispatch({ type: color });
-    dispatch({ type: font });
+    themeDispatch({ type: color });
+    themeDispatch({ type: font });
+    timeDispatch({ type: "pomodoro", value: pomodoro });
+    timeDispatch({ type: "short", value: short });
+    timeDispatch({ type: "long", value: long });
   };
 
-  const updateOptions = () => {
-    setColor(options.color);
-    setFont(options.font);
+  const updateTheme = () => {
+    setColor(theme.color);
+    setFont(theme.font);
+    setPomodoro(time.pomodoro);
+    setShort(time.short);
+    setLong(time.long);
     Toggle();
   };
 
@@ -164,22 +245,22 @@ export const Settings = () => {
       <Modal show={isOpen}>
         <article className="flex flex-col text-blue-dark">
           <header className="flex flex-row justify-between p-5">
-            <h3 className={`text-28 leading-35 font-${font} font-bold`}>Settings</h3>
+            <h3 className={`text-20 md:text-28 leading-25 md:leading-35 font-${font} font-bold`}>Settings</h3>
             <button className="px-3" onClick={() => Toggle()}>
               <IoMdClose className="text-14 text-blue-medium" />
             </button>
           </header>
           <Hr />
-          <div className="px-5 flex flex-col">
-            <Time font={font} />
+          <div className="px-5 flex flex-col pb-3 md:pb-0">
+            <Times time={time} timeDispatch={timeDispatch} font={font} />
             <Hr />
-            <Fonts options={options} dispatch={dispatch} font={font} />
+            <Fonts theme={theme} themeDispatch={themeDispatch} font={font} />
             <Hr />
-            <Colors options={options} dispatch={dispatch} font={font} />
+            <Colors theme={theme} themeDispatch={themeDispatch} font={font} />
           </div>
         </article>
         <div className="flex justify-center items-center -mb-6">
-          <Button onClick={() => updateOptions()}>Apply</Button>
+          <Button onClick={() => updateTheme()}>Apply</Button>
         </div>
       </Modal>
     </div>
