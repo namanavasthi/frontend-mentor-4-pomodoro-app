@@ -1,21 +1,25 @@
 import React from "react";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 
+import { useAppContext, COLOR_MAPPER } from "./Context";
+
 export const Clock = () => {
   const percentage = 65;
   const time = "17:59";
   const currState = "pause";
+
+  const { color } = useAppContext();
 
   return (
     <div className="rounded-full w-300 h-300 md:w-410 md:h-410 mx-auto bg-gradient-to-tl from-gradient-from to-gradient-to shadow-oval relative mb-80 md:mb-144 lg:mb-60">
       <div className="w-266 h-266 md:w-366 md:h-366 absolute transform left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         <div className="bg-blue-dark w-full h-full rounded-full">
           <CircularProgressbarWithChildren
-            className="text-red p-4"
+            className={`text-${color} p-4`}
             value={percentage}
             styles={{
               path: {
-                stroke: "#F87070",
+                stroke: `${COLOR_MAPPER[color]}`,
                 strokeLinecap: "round",
                 transition: "stroke-dashoffset 0.5s ease 0s",
                 transformOrigin: "center center",

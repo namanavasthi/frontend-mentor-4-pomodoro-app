@@ -1,11 +1,15 @@
 import React from "react";
 
+import { useAppContext } from "./Context";
+
 const TabButton = (props) => {
+  const { color } = useAppContext();
+
   const { children, className, onClick, active = false } = props;
   return (
     <button
       className={`rounded-full  ${
-        active ? "bg-red text-blue-medium" : "bg-transparent text-neutral-100 text-opacity-40"
+        active ? `bg-${color} text-blue-medium` : "bg-transparent text-neutral-100 text-opacity-40"
       } font-kumbh font-bold text-12 leading-15 md:text-14 md:leading-18 leading-xl ${className ? className : ""}`}
       onClick={() => onClick()}
     >

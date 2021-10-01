@@ -23,6 +23,7 @@ module.exports = {
         neutral: {
           100: "#D7E0FF",
           200: "#EFF1FA",
+          300: "#E3E1E1",
         },
       },
       boxShadow: {
@@ -30,6 +31,7 @@ module.exports = {
       },
       fontSize: {
         12: "12px",
+        13: "13px",
         14: "14px",
         16: "16px",
         24: "24px",
@@ -40,6 +42,7 @@ module.exports = {
       },
       lineHeight: {
         15: "15px",
+        16: "16px",
         18: "18px",
         20: "20px",
         30: "30px",
@@ -51,6 +54,7 @@ module.exports = {
         "4m": "-4px",
         "5m": "-5px",
         default: "0px",
+        5: "5px",
         13: "13px",
         15: "15px",
       },
