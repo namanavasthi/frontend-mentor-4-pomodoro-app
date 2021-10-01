@@ -7,7 +7,7 @@ export const COLOR_MAPPER = {
 };
 
 export const DEFAULT_THEME = {
-  font: "font-kumbh",
+  font: "kumbh",
   setFont: () => {},
   color: "red",
   setColor: () => {},

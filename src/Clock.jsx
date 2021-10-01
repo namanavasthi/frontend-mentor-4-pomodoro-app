@@ -8,7 +8,7 @@ export const Clock = () => {
   const time = "17:59";
   const currState = "pause";
 
-  const { color } = useAppContext();
+  const { color, font } = useAppContext();
 
   return (
     <div className="rounded-full w-300 h-300 md:w-410 md:h-410 mx-auto bg-gradient-to-tl from-gradient-from to-gradient-to shadow-oval relative mb-80 md:mb-144 lg:mb-60">
@@ -32,10 +32,14 @@ export const Clock = () => {
             }}
           >
             <div className="flex flex-col justify-center items-center">
-              <h2 className="font-kumbh font-bold text-80 leading-99 tracking-4m md:text-100 md:leading-124 md:tracking-5m text-neutral-100">
+              <h2
+                className={`font-${font} font-bold text-80 leading-99 tracking-4m md:text-100 md:leading-124 md:tracking-5m text-neutral-100`}
+              >
                 {time}
               </h2>
-              <h3 className="uppercase font-kumbh font-bold text-14 line-18 tracking-13 md:text-16 md:leading-20 md:tracking-15">
+              <h3
+                className={`uppercase font-${font} font-bold text-14 line-18 tracking-13 md:text-16 md:leading-20 md:tracking-15`}
+              >
                 {currState}
               </h3>
             </div>

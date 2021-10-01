@@ -3,14 +3,14 @@ import React from "react";
 import { useAppContext } from "./Context";
 
 const TabButton = (props) => {
-  const { color } = useAppContext();
+  const { color, font } = useAppContext();
 
   const { children, className, onClick, active = false } = props;
   return (
     <button
       className={`rounded-full  ${
         active ? `bg-${color} text-blue-medium` : "bg-transparent text-neutral-100 text-opacity-40"
-      } font-kumbh font-bold text-12 leading-15 md:text-14 md:leading-18 leading-xl ${className ? className : ""}`}
+      } font-${font} font-bold text-12 leading-15 md:text-14 md:leading-18 leading-xl ${className ? className : ""}`}
       onClick={() => onClick()}
     >
       <span className="rounded-full h-full block w-full py-2.5 px-3 md:py-3.5 md:px-11 hover:bg-white hover:bg-opacity-20">
@@ -21,11 +21,11 @@ const TabButton = (props) => {
 };
 
 const DefaultButton = (props) => {
-  const { color } = useAppContext();
+  const { color, font } = useAppContext();
   const { children, className, onClick } = props;
   return (
     <button
-      className={`rounded-full text-white bg-${color} font-kumbh font-bold text-base leading-xl ${
+      className={`rounded-full text-white bg-${color} font-${font} font-bold text-base leading-xl ${
         className ? className : ""
       }`}
       onClick={() => onClick()}

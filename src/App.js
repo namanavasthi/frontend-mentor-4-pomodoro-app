@@ -11,7 +11,7 @@ const App = () => {
   const [color, setColor] = useState(DEFAULT_THEME.color);
 
   return (
-    <div className="App w-full bg-blue-medium text-neutral-100 tracking-default font-kumbh font-bold">
+    <div className={`App w-full bg-blue-medium text-neutral-100 tracking-default font-${font} font-bold`}>
       <Context.Provider value={{ font, color, setFont, setColor }}>
         <Wrapper className="flex flex-col items-center justify-center">
           <Heading />

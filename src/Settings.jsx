@@ -18,6 +18,12 @@ function reducer(options, action) {
       return Object.assign({}, options, { color: "blue-light" });
     case "purple":
       return Object.assign({}, options, { color: "purple" });
+    case "kumbh":
+      return Object.assign({}, options, { font: "kumbh" });
+    case "roboto":
+      return Object.assign({}, options, { font: "roboto" });
+    case "space":
+      return Object.assign({}, options, { font: "space" });
     default:
       throw new Error();
   }
@@ -66,23 +72,15 @@ const Hr = ({ className }) => {
   return <hr className={`w-full border-t-2 bg-neutral-300 ${className ? className : ""}`} />;
 };
 
-const Time = () => {
+const Time = ({ font }) => {
   return (
     <div className="py-5">
-      <h2 className="uppercase font-kumbh font-bold text-13 line-16 tracking-5">time (minutes)</h2>
+      <h2 className={`uppercase font-${font} font-bold text-13 line-16 tracking-5`}>time (minutes)</h2>
     </div>
   );
 };
 
-const Font = () => {
-  return (
-    <div className="py-5">
-      <h2 className="uppercase font-kumbh font-bold text-13 line-16 tracking-5">font</h2>
-    </div>
-  );
-};
-
-const Colors = ({ options, dispatch }) => {
+const Colors = ({ options, dispatch, font }) => {
   const Color = ({ value }) => {
     return (
       <li>
@@ -98,11 +96,39 @@ const Colors = ({ options, dispatch }) => {
 
   return (
     <div className="py-5 flex flex-row justify-between items-center">
-      <h2 className="uppercase font-kumbh font-bold text-13 line-16 tracking-5">color</h2>
+      <h2 className={`uppercase font-${font} font-bold text-13 line-16 tracking-5`}>color</h2>
       <ul className="flex flex-row w-1/2 md:w-1/3 justify-around">
         <Color value="red" />
         <Color value="blue-light" />
         <Color value="purple" />
+      </ul>
+    </div>
+  );
+};
+
+const Fonts = ({ options, dispatch, font }) => {
+  const Font = ({ value }) => {
+    return (
+      <li>
+        <button
+          onClick={() => dispatch({ type: value })}
+          className={`${
+            options.font === value ? "bg-blue-dark text-white" : "bg-neutral-200 text-blue-medium text-opacity-70"
+          } font-${value} text-md w-40 h-40 flex justify-center items-center rounded-full focus:shadow-md hover:shadow-md`}
+        >
+          Aa
+        </button>
+      </li>
+    );
+  };
+
+  return (
+    <div className="py-5 flex flex-row justify-between items-center">
+      <h2 className={`uppercase font-${font} font-bold text-13 line-16 tracking-5`}>color</h2>
+      <ul className="flex flex-row w-1/2 md:w-1/3 justify-around">
+        <Font value="kumbh" />
+        <Font value="roboto" />
+        <Font value="space" />
       </ul>
     </div>
   );
@@ -120,6 +146,7 @@ export const Settings = () => {
   const Toggle = () => {
     setIsOpen(!isOpen);
     dispatch({ type: color });
+    dispatch({ type: font });
   };
 
   const updateOptions = () => {
@@ -137,18 +164,18 @@ export const Settings = () => {
       <Modal show={isOpen}>
         <article className="flex flex-col text-blue-dark">
           <header className="flex flex-row justify-between p-5">
-            <h3 className="text-28 leading-35 font-bold font-kumbh">Settings</h3>
+            <h3 className={`text-28 leading-35 font-${font} font-bold`}>Settings</h3>
             <button className="px-3" onClick={() => Toggle()}>
               <IoMdClose className="text-14 text-blue-medium" />
             </button>
           </header>
           <Hr />
           <div className="px-5 flex flex-col">
-            <Time />
+            <Time font={font} />
             <Hr />
-            <Font />
+            <Fonts options={options} dispatch={dispatch} font={font} />
             <Hr />
-            <Colors options={options} dispatch={dispatch} />
+            <Colors options={options} dispatch={dispatch} font={font} />
           </div>
         </article>
         <div className="flex justify-center items-center -mb-6">
