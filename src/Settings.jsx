@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useReducer } from "react";
 import { createPortal } from "react-dom";
 
 import { MdSettings } from "react-icons/md";
@@ -9,6 +9,19 @@ import { Button } from "./Button";
 import { useAppContext } from "./Context";
 
 const modalRoot = document.getElementById("modal");
+
+function reducer(options, action) {
+  switch (action.type) {
+    case "red":
+      return Object.assign({}, options, { color: "red" });
+    case "blue-light":
+      return Object.assign({}, options, { color: "blue-light" });
+    case "purple":
+      return Object.assign({}, options, { color: "purple" });
+    default:
+      throw new Error();
+  }
+}
 
 const Modal = ({ show, children }) => {
   const elementRef = useRef(null);
@@ -69,15 +82,15 @@ const Font = () => {
   );
 };
 
-const Colors = ({ currColor, setCurrColor }) => {
+const Colors = ({ options, dispatch }) => {
   const Color = ({ value }) => {
     return (
       <li>
         <button
-          onClick={() => setCurrColor(value)}
+          onClick={() => dispatch({ type: value })}
           className={`bg-${value} text-lg w-40 h-40 flex justify-center items-center rounded-full focus:shadow-md hover:shadow-md`}
         >
-          {currColor === value ? <GoCheck /> : ""}
+          {options.color === value ? <GoCheck /> : ""}
         </button>
       </li>
     );
@@ -100,16 +113,18 @@ export const Settings = () => {
 
   const { color, font, setColor, setFont } = useAppContext();
 
-  const [currColor, setCurrColor] = useState(color);
+  const initialState = { color: color, font: font };
+
+  const [options, dispatch] = useReducer(reducer, initialState);
 
   const Toggle = () => {
     setIsOpen(!isOpen);
-    setCurrColor(color);
+    dispatch({ type: color });
   };
 
   const updateOptions = () => {
-    setColor(currColor);
-    setFont(font);
+    setColor(options.color);
+    setFont(options.font);
     Toggle();
   };
 
@@ -133,7 +148,7 @@ export const Settings = () => {
             <Hr />
             <Font />
             <Hr />
-            <Colors currColor={currColor} setCurrColor={setCurrColor} />
+            <Colors options={options} dispatch={dispatch} />
           </div>
         </article>
         <div className="flex justify-center items-center -mb-6">
