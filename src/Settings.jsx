@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import { MdSettings } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 import { GoCheck } from "react-icons/go";
+import { CgChevronUp } from "react-icons/cg";
 
 import { Button } from "./Button";
 import { useAppContext, STEP, useTimeContext } from "./Context";
@@ -105,25 +106,26 @@ const Times = ({ time, timeDispatch, font }) => {
   // so intead of binding things to an input number change
   // id use basic html instead
 
-  const Time = ({ value }) => {
+  const Time = ({ value, className }) => {
     return (
-      <li className="flex flex-col">
-        <label htmlFor={value} className={`lowercase text-12 leading-15 font-${font} font-bold`}>
+      <li className={`flex flex-row items-center md:flex-col w-full py-1 md:py-3 ${className ? className : ""}`}>
+        <span
+          className={`lowercase pb-2 text-12 leading-15 font-${font} font-bold text-blue-medium text-opacity-40 w-1/2 md:w-full`}
+        >
           {value}
-        </label>
-        <input
-          type="number"
-          id={value}
-          name={value}
-          value={time[value]}
-          step={STEP}
-          min="1"
-          max="60"
-          onChange={(e) => {
-            if (e.target.value > time[value]) timeDispatch({ type: value, value: e.target.value });
-            else if (e.target.value < time[value]) timeDispatch({ type: value, value: e.target.value });
-          }}
-        />
+        </span>
+
+        <div className="flex justify-between items-center rounded-lg bg-neutral-200 p-2 w-1/2 md:w-full">
+          <span>{time[value]}</span>
+          <div className="flex flex-col">
+            <button onClick={() => timeDispatch({ type: value, value: time[value] + STEP })}>
+              <CgChevronUp />
+            </button>
+            <button onClick={() => timeDispatch({ type: value, value: time[value] - STEP })}>
+              <CgChevronUp className="transform rotate-180" />
+            </button>
+          </div>
+        </div>
       </li>
     );
   };
@@ -131,13 +133,13 @@ const Times = ({ time, timeDispatch, font }) => {
   return (
     <div className="py-5 flex flex-col justify-between items-center">
       <h2
-        className={`uppercase font-${font} font-bold text-11 md:text-13 leading-14 md:leading-16 tracking-5 pb-5 md:pb-0`}
+        className={`uppercase font-${font} font-bold text-11 md:text-13 leading-14 md:leading-16 tracking-5 pb-3 md:pb-0`}
       >
         time (minutes)
       </h2>
-      <ul className="flex flex-row w-full justify-between">
-        <Time value="pomodoro" />
-        <Time value="short" />
+      <ul className="flex flex-col md:flex-row w-full justify-between items-center">
+        <Time value="pomodoro" className="md:pr-6" />
+        <Time value="short" className="md:pr-6" />
         <Time value="long" />
       </ul>
     </div>

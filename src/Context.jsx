@@ -13,12 +13,6 @@ export const DEFAULT_THEME = {
   setFont: () => {},
   color: "red",
   setColor: () => {},
-  time: {
-    pomodoro: 25,
-    short: 5,
-    long: 15,
-  },
-  setTime: () => {},
 };
 
 export const DEFAULT_TIME = {
