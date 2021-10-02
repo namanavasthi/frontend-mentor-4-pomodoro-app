@@ -118,10 +118,14 @@ const Times = ({ time, timeDispatch, font }) => {
         <div className="flex justify-between items-center rounded-lg bg-neutral-200 p-2 w-1/2 md:w-full">
           <span>{time[value]}</span>
           <div className="flex flex-col">
-            <button onClick={() => timeDispatch({ type: value, value: time[value] + STEP })}>
+            <button
+              onClick={() => timeDispatch({ type: value, value: time[value] + STEP < 99 ? time[value] + STEP : 99 })}
+            >
               <CgChevronUp />
             </button>
-            <button onClick={() => timeDispatch({ type: value, value: time[value] - STEP })}>
+            <button
+              onClick={() => timeDispatch({ type: value, value: time[value] - STEP > 0 ? time[value] - STEP : 0 })}
+            >
               <CgChevronUp className="transform rotate-180" />
             </button>
           </div>
