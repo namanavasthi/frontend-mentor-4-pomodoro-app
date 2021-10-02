@@ -7,7 +7,7 @@ import { Wrapper } from "./Wrapper";
 import { DEFAULT_THEME, Context, DEFAULT_TIME, TimeContext, DEFAULT_TAB, TabContext } from "./Context";
 
 const App = () => {
-  const [tab, setTab] = useState(DEFAULT_TAB);
+  const [tab, setTab] = useState(DEFAULT_TAB.tab);
 
   const [font, setFont] = useState(DEFAULT_THEME.font);
   const [color, setColor] = useState(DEFAULT_THEME.color);

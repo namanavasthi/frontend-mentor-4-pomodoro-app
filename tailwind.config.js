@@ -1,5 +1,18 @@
 module.exports = {
-  purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
+  purge: {
+    content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
+    safelist: [
+      "font-kumbh",
+      "font-roboto",
+      "font-space",
+      "bg-red",
+      "bg-purple",
+      "bg-blue-light",
+      "text-red",
+      "text-purple",
+      "text-blue-light",
+    ],
+  },
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
