@@ -79,7 +79,7 @@ export const Clock = () => {
   }, [pomodoro, short, long]);
 
   const calcPercentageTimePassed = (initial, current) => {
-    return Math.floor(((initial - current) * 100) / initial);
+    return 100 - ((initial - current) * 100) / initial;
   };
 
   return (
